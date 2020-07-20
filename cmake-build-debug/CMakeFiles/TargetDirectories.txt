@@ -1,0 +1,3 @@
+/Users/abumuhammad/Documents/C++/khobar_covid/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/Users/abumuhammad/Documents/C++/khobar_covid/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/abumuhammad/Documents/C++/khobar_covid/cmake-build-debug/CMakeFiles/khobar_covid.dir
