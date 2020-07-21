@@ -16,9 +16,7 @@ public:
     Switcher& nasional(NasionalCommand* cmd, Type type);
 
 private:
-    Command* start_cmd;
-    Command* int_cmd;
-    Command* nas_cmd;
+    Command* m_cmd;
     Type m_type;
 };
 

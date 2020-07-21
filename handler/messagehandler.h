@@ -7,10 +7,14 @@
 
 #include <tgbot/tgbot.h>
 #include <nlohmann/json.hpp>
+#include <cpp_redis/cpp_redis>
 
 class MessageHandler {
 public:
-    MessageHandler(TgBot::Bot& bot, nlohmann::json& data);
+    MessageHandler(TgBot::Bot& bot,
+                   nlohmann::json& data,
+                   cpp_redis::client& client
+                   );
 
     void start();
     void internasional();
@@ -19,7 +23,8 @@ public:
 
 private:
     TgBot::Bot& m_bot;
-    nlohmann::json m_data;
+    nlohmann::json& m_data;
+    cpp_redis::client& m_client;
 };
 
 

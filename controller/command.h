@@ -11,7 +11,8 @@ enum class Type {
     Total,
     Start,
     Internasional,
-    Country
+    Country,
+    Nasional
 };
 
 class Command {

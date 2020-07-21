@@ -5,8 +5,6 @@
 #ifndef KHOBAR_COVID_INTERNASIONALCOMMAND_H
 #define KHOBAR_COVID_INTERNASIONALCOMMAND_H
 
-#include <string_view>
-
 #include "command.h"
 #include "../handler/messagehandler.h"
 

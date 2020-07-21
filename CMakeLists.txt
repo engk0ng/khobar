@@ -12,6 +12,7 @@ find_package(cpprestsdk REQUIRED)
 find_package(fmt REQUIRED)
 
 set(JSON_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/3rdparty/single_include)
+set(DATE_INCLUDE_DIRS ${PROJECT_SOURCE_DIR}/3rdparty/date/include)
 
 add_executable(khobar_covid
         main.cpp
@@ -36,11 +37,13 @@ add_executable(khobar_covid
 target_include_directories(khobar_covid
         PRIVATE ${Boost_INCLUDE_DIR}
         ${JSON_INCLUDE_DIRS}
+        ${DATE_INCLUDE_DIRS}
         )
 
 target_link_libraries(khobar_covid
         /usr/local/lib/libTgBot.a
-        /usr/local/lib/liblexbor_static.a
+        /usr/local/lib/libcpp_redis.a
+        /usr/local/lib/libtacopie.a
         cpprestsdk::cpprest
         Threads::Threads
         fmt::fmt
