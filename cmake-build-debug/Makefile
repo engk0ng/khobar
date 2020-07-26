@@ -150,6 +150,33 @@ controller/internasionalcommand.cpp.s:
 	$(MAKE) -f CMakeFiles/khobar_covid.dir/build.make CMakeFiles/khobar_covid.dir/controller/internasionalcommand.cpp.s
 .PHONY : controller/internasionalcommand.cpp.s
 
+controller/nasionalcommand.o: controller/nasionalcommand.cpp.o
+
+.PHONY : controller/nasionalcommand.o
+
+# target to build an object file
+controller/nasionalcommand.cpp.o:
+	$(MAKE) -f CMakeFiles/khobar_covid.dir/build.make CMakeFiles/khobar_covid.dir/controller/nasionalcommand.cpp.o
+.PHONY : controller/nasionalcommand.cpp.o
+
+controller/nasionalcommand.i: controller/nasionalcommand.cpp.i
+
+.PHONY : controller/nasionalcommand.i
+
+# target to preprocess a source file
+controller/nasionalcommand.cpp.i:
+	$(MAKE) -f CMakeFiles/khobar_covid.dir/build.make CMakeFiles/khobar_covid.dir/controller/nasionalcommand.cpp.i
+.PHONY : controller/nasionalcommand.cpp.i
+
+controller/nasionalcommand.s: controller/nasionalcommand.cpp.s
+
+.PHONY : controller/nasionalcommand.s
+
+# target to generate assembly for a file
+controller/nasionalcommand.cpp.s:
+	$(MAKE) -f CMakeFiles/khobar_covid.dir/build.make CMakeFiles/khobar_covid.dir/controller/nasionalcommand.cpp.s
+.PHONY : controller/nasionalcommand.cpp.s
+
 controller/startcommand.o: controller/startcommand.cpp.o
 
 .PHONY : controller/startcommand.o
@@ -176,6 +203,33 @@ controller/startcommand.s: controller/startcommand.cpp.s
 controller/startcommand.cpp.s:
 	$(MAKE) -f CMakeFiles/khobar_covid.dir/build.make CMakeFiles/khobar_covid.dir/controller/startcommand.cpp.s
 .PHONY : controller/startcommand.cpp.s
+
+controller/switcher.o: controller/switcher.cpp.o
+
+.PHONY : controller/switcher.o
+
+# target to build an object file
+controller/switcher.cpp.o:
+	$(MAKE) -f CMakeFiles/khobar_covid.dir/build.make CMakeFiles/khobar_covid.dir/controller/switcher.cpp.o
+.PHONY : controller/switcher.cpp.o
+
+controller/switcher.i: controller/switcher.cpp.i
+
+.PHONY : controller/switcher.i
+
+# target to preprocess a source file
+controller/switcher.cpp.i:
+	$(MAKE) -f CMakeFiles/khobar_covid.dir/build.make CMakeFiles/khobar_covid.dir/controller/switcher.cpp.i
+.PHONY : controller/switcher.cpp.i
+
+controller/switcher.s: controller/switcher.cpp.s
+
+.PHONY : controller/switcher.s
+
+# target to generate assembly for a file
+controller/switcher.cpp.s:
+	$(MAKE) -f CMakeFiles/khobar_covid.dir/build.make CMakeFiles/khobar_covid.dir/controller/switcher.cpp.s
+.PHONY : controller/switcher.cpp.s
 
 handler/messagehandler.o: handler/messagehandler.cpp.o
 
@@ -270,9 +324,15 @@ help:
 	@echo "... controller/internasionalcommand.o"
 	@echo "... controller/internasionalcommand.i"
 	@echo "... controller/internasionalcommand.s"
+	@echo "... controller/nasionalcommand.o"
+	@echo "... controller/nasionalcommand.i"
+	@echo "... controller/nasionalcommand.s"
 	@echo "... controller/startcommand.o"
 	@echo "... controller/startcommand.i"
 	@echo "... controller/startcommand.s"
+	@echo "... controller/switcher.o"
+	@echo "... controller/switcher.i"
+	@echo "... controller/switcher.s"
 	@echo "... handler/messagehandler.o"
 	@echo "... handler/messagehandler.i"
 	@echo "... handler/messagehandler.s"

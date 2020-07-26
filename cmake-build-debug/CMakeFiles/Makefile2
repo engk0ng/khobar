@@ -74,12 +74,12 @@ clean: CMakeFiles/khobar_covid.dir/clean
 CMakeFiles/khobar_covid.dir/all:
 	$(MAKE) -f CMakeFiles/khobar_covid.dir/build.make CMakeFiles/khobar_covid.dir/depend
 	$(MAKE) -f CMakeFiles/khobar_covid.dir/build.make CMakeFiles/khobar_covid.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/abumuhammad/Documents/C++/khobar_covid/cmake-build-debug/CMakeFiles --progress-num=1,2,3,4,5,6 "Built target khobar_covid"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/Users/abumuhammad/Documents/C++/khobar_covid/cmake-build-debug/CMakeFiles --progress-num=1,2,3,4,5,6,7,8 "Built target khobar_covid"
 .PHONY : CMakeFiles/khobar_covid.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/khobar_covid.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /Users/abumuhammad/Documents/C++/khobar_covid/cmake-build-debug/CMakeFiles 6
+	$(CMAKE_COMMAND) -E cmake_progress_start /Users/abumuhammad/Documents/C++/khobar_covid/cmake-build-debug/CMakeFiles 8
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/khobar_covid.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /Users/abumuhammad/Documents/C++/khobar_covid/cmake-build-debug/CMakeFiles 0
 .PHONY : CMakeFiles/khobar_covid.dir/rule

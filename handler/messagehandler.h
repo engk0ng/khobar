@@ -9,6 +9,8 @@
 #include <nlohmann/json.hpp>
 #include <cpp_redis/cpp_redis>
 
+#include <cpprest/asyncrt_utils.h>
+
 class MessageHandler {
 public:
     MessageHandler(TgBot::Bot& bot,
@@ -20,6 +22,12 @@ public:
     void internasional();
     void total();
     void nasional();
+    void hoaxs();
+    void nasehat();
+
+private:
+    pplx::task<std::vector<unsigned char>> get_timestamp();
+    pplx::task<std::vector<unsigned char>> get_hoaxs();
 
 private:
     TgBot::Bot& m_bot;

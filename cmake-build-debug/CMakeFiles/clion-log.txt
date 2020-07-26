@@ -1,5 +1,5 @@
 /Applications/CLion.app/Contents/bin/cmake/mac/bin/cmake -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" /Users/abumuhammad/Documents/C++/khobar_covid
--- Found Boost: /usr/local/lib/cmake/Boost-1.72.0/BoostConfig.cmake (found version "1.72.0") found components: system 
+-- Found Boost: /usr/local/lib/cmake/Boost-1.72.0/BoostConfig.cmake (found version "1.72.0") found components: system fiber 
 -- Found Boost: /usr/local/lib/cmake/Boost-1.72.0/BoostConfig.cmake (found version "1.72.0") found components: random system thread filesystem chrono atomic date_time regex 
 -- Configuring done
 -- Generating done

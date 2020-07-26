@@ -122,13 +122,41 @@ CMakeFiles/khobar_covid.dir/controller/startcommand.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/khobar_covid.dir/controller/startcommand.cpp.s"
 	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/abumuhammad/Documents/C++/khobar_covid/controller/startcommand.cpp -o CMakeFiles/khobar_covid.dir/controller/startcommand.cpp.s
 
+CMakeFiles/khobar_covid.dir/controller/switcher.cpp.o: CMakeFiles/khobar_covid.dir/flags.make
+CMakeFiles/khobar_covid.dir/controller/switcher.cpp.o: ../controller/switcher.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/abumuhammad/Documents/C++/khobar_covid/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/khobar_covid.dir/controller/switcher.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/khobar_covid.dir/controller/switcher.cpp.o -c /Users/abumuhammad/Documents/C++/khobar_covid/controller/switcher.cpp
+
+CMakeFiles/khobar_covid.dir/controller/switcher.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/khobar_covid.dir/controller/switcher.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/abumuhammad/Documents/C++/khobar_covid/controller/switcher.cpp > CMakeFiles/khobar_covid.dir/controller/switcher.cpp.i
+
+CMakeFiles/khobar_covid.dir/controller/switcher.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/khobar_covid.dir/controller/switcher.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/abumuhammad/Documents/C++/khobar_covid/controller/switcher.cpp -o CMakeFiles/khobar_covid.dir/controller/switcher.cpp.s
+
+CMakeFiles/khobar_covid.dir/controller/nasionalcommand.cpp.o: CMakeFiles/khobar_covid.dir/flags.make
+CMakeFiles/khobar_covid.dir/controller/nasionalcommand.cpp.o: ../controller/nasionalcommand.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/Users/abumuhammad/Documents/C++/khobar_covid/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/khobar_covid.dir/controller/nasionalcommand.cpp.o"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/khobar_covid.dir/controller/nasionalcommand.cpp.o -c /Users/abumuhammad/Documents/C++/khobar_covid/controller/nasionalcommand.cpp
+
+CMakeFiles/khobar_covid.dir/controller/nasionalcommand.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/khobar_covid.dir/controller/nasionalcommand.cpp.i"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /Users/abumuhammad/Documents/C++/khobar_covid/controller/nasionalcommand.cpp > CMakeFiles/khobar_covid.dir/controller/nasionalcommand.cpp.i
+
+CMakeFiles/khobar_covid.dir/controller/nasionalcommand.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/khobar_covid.dir/controller/nasionalcommand.cpp.s"
+	/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /Users/abumuhammad/Documents/C++/khobar_covid/controller/nasionalcommand.cpp -o CMakeFiles/khobar_covid.dir/controller/nasionalcommand.cpp.s
+
 # Object files for target khobar_covid
 khobar_covid_OBJECTS = \
 "CMakeFiles/khobar_covid.dir/main.cpp.o" \
 "CMakeFiles/khobar_covid.dir/utils/mystack.cpp.o" \
 "CMakeFiles/khobar_covid.dir/controller/internasionalcommand.cpp.o" \
 "CMakeFiles/khobar_covid.dir/handler/messagehandler.cpp.o" \
-"CMakeFiles/khobar_covid.dir/controller/startcommand.cpp.o"
+"CMakeFiles/khobar_covid.dir/controller/startcommand.cpp.o" \
+"CMakeFiles/khobar_covid.dir/controller/switcher.cpp.o" \
+"CMakeFiles/khobar_covid.dir/controller/nasionalcommand.cpp.o"
 
 # External object files for target khobar_covid
 khobar_covid_EXTERNAL_OBJECTS =
@@ -138,11 +166,14 @@ khobar_covid: CMakeFiles/khobar_covid.dir/utils/mystack.cpp.o
 khobar_covid: CMakeFiles/khobar_covid.dir/controller/internasionalcommand.cpp.o
 khobar_covid: CMakeFiles/khobar_covid.dir/handler/messagehandler.cpp.o
 khobar_covid: CMakeFiles/khobar_covid.dir/controller/startcommand.cpp.o
+khobar_covid: CMakeFiles/khobar_covid.dir/controller/switcher.cpp.o
+khobar_covid: CMakeFiles/khobar_covid.dir/controller/nasionalcommand.cpp.o
 khobar_covid: CMakeFiles/khobar_covid.dir/build.make
 khobar_covid: /usr/local/lib/libTgBot.a
-khobar_covid: /usr/local/lib/libgumbo.a
-khobar_covid: /usr/local/lib/libmyhtml_static.a
+khobar_covid: /usr/local/lib/libcpp_redis.a
+khobar_covid: /usr/local/lib/libtacopie.a
 khobar_covid: /usr/local/lib/libcpprest.2.10.dylib
+khobar_covid: /usr/local/lib/libfmt.a
 khobar_covid: /usr/lib/libssl.dylib
 khobar_covid: /usr/lib/libcrypto.dylib
 khobar_covid: /usr/local/lib/libboost_random-mt.dylib
@@ -156,7 +187,7 @@ khobar_covid: /usr/local/lib/libboost_regex-mt.dylib
 khobar_covid: /usr/lib/libssl.dylib
 khobar_covid: /usr/lib/libcrypto.dylib
 khobar_covid: CMakeFiles/khobar_covid.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/abumuhammad/Documents/C++/khobar_covid/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable khobar_covid"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/Users/abumuhammad/Documents/C++/khobar_covid/cmake-build-debug/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX executable khobar_covid"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/khobar_covid.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

@@ -12,7 +12,9 @@ enum class Type {
     Start,
     Internasional,
     Country,
-    Nasional
+    Nasional,
+    Hoaks,
+    Nasehat
 };
 
 class Command {

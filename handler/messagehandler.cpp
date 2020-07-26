@@ -14,13 +14,15 @@
 #include <cpprest/filestream.h>
 #include <cpprest/uri.h>
 #include <cpprest/json.h>
-#include <cpprest/asyncrt_utils.h>
+#include <cpprest/http_listener.h>
 
 #include <boost/filesystem.hpp>
 #include <boost/date_time.hpp>
 #include <boost/algorithm/string/replace.hpp>
 #include <boost/algorithm/string/split.hpp>
 #include <boost/chrono.hpp>
+#include <boost/lexical_cast.hpp>
+#include <boost/foreach.hpp>
 
 #include <nlohmann/json.hpp>
 
@@ -31,12 +33,15 @@ using namespace web;
 using namespace web::http;
 using namespace web::http::client;
 using namespace concurrency::streams;
+using namespace web::http::experimental::listener;
 
 static constexpr const char* url_total = "https://covid19.mathdro.id/api";
 static constexpr const char* api_article = "https://cryptic-brushlands-41995.herokuapp.com/";
 static constexpr const char* country_url = "https://covid19.mathdro.id/api/countries";
 static constexpr const char* nasional_url = "https://dekontaminasi.com/api/id/covid19/stats";
 static constexpr const char* date_format = "%A, %d %B %Y";
+static constexpr const char* timestamp_url = "https://dekontaminasi.com/api/id/covid19/stats.timestamp";
+static constexpr const char* hoaxs_url = "https://dekontaminasi.com/api/id/covid19/hoaxes";
 
 namespace koloboot {
 
@@ -44,9 +49,10 @@ static std::string months[12]{"Januari", "Februari", "Maret", "April",
 "Mei", "Juni", "Juli", "Agustus", "September", "Oktober",
 "November", "Desember"};
 static std::string weekdays[7]{"Ahad", "Senin", "Selasa",
-"Rabu", "Kamis", "Juma\'at", "Sabtu"};
+"Rabu", "Kamis", "Jum\'at", "Sabtu"};
 
 static const std::string prov_key = "provinsi_key";
+static const std::string rs_key = "rs_key";
 
 std::string date_day_format(const boost::gregorian::date& date) {
     boost::gregorian::date d{date.year(), date.month(), date.day()};
@@ -311,7 +317,13 @@ void MessageHandler::nasional() {
 
                     auto json_obj = nlohmann::json::parse(str);
                     std::string negara = json_obj.at("name").get<std::string>();
-                    uint64_t timestamp = json_obj.at("timestamp").get<uint64_t>();
+                    uint64_t timestamp = 0;
+                    get_timestamp()
+                    .then([&timestamp](std::vector<unsigned char> v){
+                        std::string ss = std::string(v.begin(), v.end());
+                        timestamp = boost::lexical_cast<uint64_t>(ss);
+                    })
+                    .wait();
                     int64_t terkonfirmasi = json_obj.at("numbers").at("infected").get<uint64_t>();
                     int64_t sembuh = json_obj.at("numbers").at("recovered").get<uint64_t>();
                     int64_t meninggal = json_obj.at("numbers").at("fatal").get<uint64_t>();
@@ -378,6 +390,83 @@ void MessageHandler::nasional() {
                 ++i;
             }
             m_bot.getApi().sendMessage(query->message->chat->id, list, false, 0, std::make_shared< TgBot::GenericReply >(), "HTML", false);
+        }
+    });
+}
+
+pplx::task<std::vector<unsigned char>> MessageHandler::get_timestamp() {
+
+    http_client client(timestamp_url);
+    return client.request(methods::GET).then([](http_response response){
+        return response.extract_vector();
+    });
+}
+
+pplx::task<std::vector<unsigned char>> MessageHandler::get_hoaxs() {
+    http_client client(hoaxs_url);
+    return client.request(methods::GET).then([](http_response response){
+        return response.extract_vector();
+    });
+}
+
+void MessageHandler::hoaxs() {
+    m_bot.getEvents().onCommand("hoaks", [this](TgBot::Message::Ptr tg){
+        get_hoaxs()
+        .then([this, &tg](std::vector<unsigned char> res){
+            std::string json_str = std::string(res.begin(), res.end());
+            auto json_obj = nlohmann::json::parse(std::move(json_str));
+            std::string result = "";
+            BOOST_FOREACH(nlohmann::json& item, json_obj) {
+                result.append("<a href=\"");
+                result.append(item.at("url").get<std::string>());
+                result.append("\">");
+                result.append(item.at("title"));
+                result.append("</a>");
+                result.append("\n");
+            }
+
+            std::string hoaxs = fmt::format("<b>Awas berita hoaks</b>\n\n {}", result);
+            m_bot.getApi().sendMessage(tg->chat->id, hoaxs, false, 0, std::make_shared< TgBot::GenericReply >(), "HTML", false);
+        })
+        .wait();
+    });
+}
+
+void MessageHandler::nasehat() {
+    m_bot.getEvents().onCommand("nasehat", [this](TgBot::Message::Ptr tg){
+        auto request = http_client(U(api_article))
+                .request(methods::GET, U("nasehat"))
+                .then([this, &tg](http_response response){
+                    if (response.status_code() != 200) {
+                        m_bot.getApi().sendMessage(tg->chat->id, "<pre> Terjadi kesalahan</pre>", false, 0, std::make_shared< TgBot::GenericReply >(), "HTML", false);
+                    }
+                    return response.extract_json();
+                })
+                .then([this, &tg](json::value json_obj){
+                    std::string isOk = json_obj.at("status").as_string();
+                    if (isOk == "Ok") {
+                        auto data = json_obj.at("data").as_array();
+                        std::string result = "<b>Nasehat: </b>\n\n";
+                        BOOST_FOREACH(const auto& item, data) {
+                            result.append("<a href=\"");
+                            result.append(item.at("url").as_string());
+                            result.append("\">");
+                            result.append(item.at("judul").as_string());
+                            result.append("</a>");
+                            result.append("\n");
+                        }
+                        m_bot.getApi().sendMessage(tg->chat->id, result, false, 0, std::make_shared< TgBot::GenericReply >(), "HTML", false);
+
+                    }
+                    else {
+                        m_bot.getApi().sendMessage(tg->chat->id, "<pre> Tidak dapat menampilkan data</pre>", false, 0, std::make_shared< TgBot::GenericReply >(), "HTML", false);
+                    }
+                });
+        try {
+            request.wait();
+        } catch (const std::exception &e) {
+            printf("Error exception:%s\n", e.what());
+             m_bot.getApi().sendMessage(tg->chat->id, "<pre> Tidak dapat menampilkan data</pre>", false, 0, std::make_shared< TgBot::GenericReply >(), "HTML", false);
         }
     });
 }

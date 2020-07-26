@@ -27,3 +27,15 @@ Switcher& Switcher::nasional(NasionalCommand *cmd, Type type) {
     m_type = type;
     return *this;
 }
+
+Switcher& Switcher::hoaks(NasionalCommand *cmd, Type type) {
+    m_cmd = cmd;
+    m_type = type;
+    return *this;
+}
+
+Switcher& Switcher::nasehat(NasionalCommand *cmd, Type type) {
+    m_cmd = cmd;
+    m_type = type;
+    return *this;
+}

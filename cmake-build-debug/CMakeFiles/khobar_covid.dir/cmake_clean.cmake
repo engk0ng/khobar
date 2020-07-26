@@ -1,6 +1,8 @@
 file(REMOVE_RECURSE
   "CMakeFiles/khobar_covid.dir/controller/internasionalcommand.cpp.o"
+  "CMakeFiles/khobar_covid.dir/controller/nasionalcommand.cpp.o"
   "CMakeFiles/khobar_covid.dir/controller/startcommand.cpp.o"
+  "CMakeFiles/khobar_covid.dir/controller/switcher.cpp.o"
   "CMakeFiles/khobar_covid.dir/handler/messagehandler.cpp.o"
   "CMakeFiles/khobar_covid.dir/main.cpp.o"
   "CMakeFiles/khobar_covid.dir/utils/mystack.cpp.o"

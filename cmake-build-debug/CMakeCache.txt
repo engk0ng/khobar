@@ -23,6 +23,8 @@ Boost_DATE_TIME_LIBRARY_RELEASE:STRING=/usr/local/lib/libboost_date_time-mt.dyli
 //The directory containing a CMake configuration file for Boost.
 Boost_DIR:PATH=/usr/local/lib/cmake/Boost-1.72.0
 
+Boost_FIBER_LIBRARY_RELEASE:STRING=/usr/local/lib/libboost_fiber-mt.dylib
+
 Boost_FILESYSTEM_LIBRARY_RELEASE:STRING=/usr/local/lib/libboost_filesystem-mt.dylib
 
 //Path to a file.
@@ -273,8 +275,14 @@ boost_atomic_DIR:PATH=/usr/local/lib/cmake/boost_atomic-1.72.0
 //The directory containing a CMake configuration file for boost_chrono.
 boost_chrono_DIR:PATH=/usr/local/lib/cmake/boost_chrono-1.72.0
 
+//The directory containing a CMake configuration file for boost_context.
+boost_context_DIR:PATH=/usr/local/lib/cmake/boost_context-1.72.0
+
 //The directory containing a CMake configuration file for boost_date_time.
 boost_date_time_DIR:PATH=/usr/local/lib/cmake/boost_date_time-1.72.0
+
+//The directory containing a CMake configuration file for boost_fiber.
+boost_fiber_DIR:PATH=/usr/local/lib/cmake/boost_fiber-1.72.0
 
 //The directory containing a CMake configuration file for boost_filesystem.
 boost_filesystem_DIR:PATH=/usr/local/lib/cmake/boost_filesystem-1.72.0
@@ -296,6 +304,9 @@ boost_thread_DIR:PATH=/usr/local/lib/cmake/boost_thread-1.72.0
 
 //The directory containing a CMake configuration file for cpprestsdk.
 cpprestsdk_DIR:PATH=/usr/local/lib/cmake/cpprestsdk
+
+//The directory containing a CMake configuration file for fmt.
+fmt_DIR:PATH=/usr/local/lib/cmake/fmt
 
 //The directory containing a CMake configuration file for htmlcxx.
 htmlcxx_DIR:PATH=htmlcxx_DIR-NOTFOUND
@@ -512,8 +523,12 @@ __pkg_config_checked__OPENSSL:INTERNAL=1
 boost_atomic_DIR-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: boost_chrono_DIR
 boost_chrono_DIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: boost_context_DIR
+boost_context_DIR-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: boost_date_time_DIR
 boost_date_time_DIR-ADVANCED:INTERNAL=1
+//ADVANCED property for variable: boost_fiber_DIR
+boost_fiber_DIR-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: boost_filesystem_DIR
 boost_filesystem_DIR-ADVANCED:INTERNAL=1
 //ADVANCED property for variable: boost_headers_DIR
