@@ -14,7 +14,9 @@ enum class Type {
     Country,
     Nasional,
     Hoaks,
-    Nasehat
+    Nasehat,
+    Akhbar,
+    Ciamis
 };
 
 class Command {

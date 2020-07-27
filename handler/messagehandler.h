@@ -24,6 +24,8 @@ public:
     void nasional();
     void hoaxs();
     void nasehat();
+    void akhbar();
+    void ciamis();
 
 private:
     pplx::task<std::vector<unsigned char>> get_timestamp();

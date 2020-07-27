@@ -417,6 +417,7 @@ void MessageHandler::hoaxs() {
             auto json_obj = nlohmann::json::parse(std::move(json_str));
             std::string result = "";
             BOOST_FOREACH(nlohmann::json& item, json_obj) {
+                result.append("- ");
                 result.append("<a href=\"");
                 result.append(item.at("url").get<std::string>());
                 result.append("\">");
@@ -425,7 +426,9 @@ void MessageHandler::hoaxs() {
                 result.append("\n");
             }
 
-            std::string hoaxs = fmt::format("<b>Awas berita hoaks</b>\n\n {}", result);
+            std::string hoaxs = fmt::format("<b>Awas berita hoaks</b>\n\n"
+                                            "<pre>Klik judulnya lihat faktanya</pre>\n\n "
+                                            "{}", result);
             m_bot.getApi().sendMessage(tg->chat->id, hoaxs, false, 0, std::make_shared< TgBot::GenericReply >(), "HTML", false);
         })
         .wait();
@@ -446,8 +449,10 @@ void MessageHandler::nasehat() {
                     std::string isOk = json_obj.at("status").as_string();
                     if (isOk == "Ok") {
                         auto data = json_obj.at("data").as_array();
-                        std::string result = "<b>Nasehat: </b>\n\n";
+                        std::string result = "<b>Berikut adalah judul nasehat yang bisa anda ambil faedahnya: </b>\n\n"
+                                             "<pre>Klik judulnya ambil faedahnya</pre>\n\n";
                         BOOST_FOREACH(const auto& item, data) {
+                            result.append("- ");
                             result.append("<a href=\"");
                             result.append(item.at("url").as_string());
                             result.append("\">");
@@ -457,6 +462,103 @@ void MessageHandler::nasehat() {
                         }
                         m_bot.getApi().sendMessage(tg->chat->id, result, false, 0, std::make_shared< TgBot::GenericReply >(), "HTML", false);
 
+                    }
+                    else {
+                        m_bot.getApi().sendMessage(tg->chat->id, "<pre> Tidak dapat menampilkan data</pre>", false, 0, std::make_shared< TgBot::GenericReply >(), "HTML", false);
+                    }
+                });
+        try {
+            request.wait();
+        } catch (const std::exception &e) {
+            printf("Error exception:%s\n", e.what());
+             m_bot.getApi().sendMessage(tg->chat->id, "<pre> Tidak dapat menampilkan data</pre>", false, 0, std::make_shared< TgBot::GenericReply >(), "HTML", false);
+        }
+    });
+}
+
+void MessageHandler::akhbar() {
+    m_bot.getEvents().onCommand("akhbar", [this](TgBot::Message::Ptr tg){
+        auto request = http_client(U(api_article))
+                .request(methods::GET, U("akhbar"))
+                .then([this, &tg](http_response response){
+                    if (response.status_code() != 200) {
+                        m_bot.getApi().sendMessage(tg->chat->id, "<pre> Terjadi kesalahan</pre>", false, 0, std::make_shared< TgBot::GenericReply >(), "HTML", false);
+                    }
+                    return response.extract_json();
+                 })
+                .then([this, &tg](json::value json_obj){
+                    std::string isOK = json_obj.at("status").as_string();
+                    if (isOK == "Ok") {
+                        auto data = json_obj.at("data").as_array();
+                        std::string result = "<b>Berikut adalah judul akhbar yang bisa anda ambil faedahnya: </b>\n\n"
+                                             "<pre>Klik judulnya ambil faedahnya</pre>\n\n";
+                        BOOST_FOREACH(const auto& item, data) {
+                            result.append("- ");
+                            result.append("<a href=\"");
+                            result.append(item.at("url").as_string());
+                            result.append("\">");
+                            result.append(item.at("judul").as_string());
+                            result.append("</a>");
+                            result.append("\n");
+                        }
+                        m_bot.getApi().sendMessage(tg->chat->id, result, false, 0, std::make_shared< TgBot::GenericReply >(), "HTML", false);
+                    }
+                    else {
+                        m_bot.getApi().sendMessage(tg->chat->id, "<pre> Tidak dapat menampilkan data</pre>", false, 0, std::make_shared< TgBot::GenericReply >(), "HTML", false);
+                    }
+                });
+        try {
+            request.wait();
+        } catch (const std::exception &e) {
+            printf("Error exception:%s\n", e.what());
+             m_bot.getApi().sendMessage(tg->chat->id, "<pre> Tidak dapat menampilkan data</pre>", false, 0, std::make_shared< TgBot::GenericReply >(), "HTML", false);
+        }
+    });
+}
+
+void MessageHandler::ciamis() {
+    m_bot.getEvents().onCommand("ciamis", [this](TgBot::Message::Ptr tg){
+        auto request = http_client(U(api_article))
+                .request(methods::GET, U("ciamis"))
+                .then([this, &tg](http_response response){
+                    if (response.status_code() != 200) {
+                        m_bot.getApi().sendMessage(tg->chat->id, "<pre> Terjadi kesalahan</pre>", false, 0, std::make_shared< TgBot::GenericReply >(), "HTML", false);
+                    }
+                    return response.extract_json();
+                })
+                .then([this, &tg](json::value json_obj){
+                    std::string isOK = json_obj.at("status").as_string();
+                    if (isOK == "Ok") {
+                        auto data = json_obj.at("data").as_array();
+                        std::string header = data[0].as_string();
+                        std::string tgl = data[1].as_string();
+                        std::string konfirmasi = fmt::format("{}\n{} {}\n{}\n{}",
+                                                             data[3].as_string(),
+                                data[4].as_string(),
+                                data[5].as_string(),
+                                data[6].as_string(),
+                                data[7].as_string());
+                        std::string opp = fmt::format("{}\n{}\n{}\n{} {}", data[8].as_string(),
+                                data[9].as_string(), data[10].as_string(), data[11].as_string(), data[12].as_string());
+                        std::string odp = fmt::format("{}\n{} {}\n{}\n{}",
+                                                      data[13].as_string(),
+                                                        data[14].as_string(),
+                                                        data[15].as_string(),
+                                                        data[16].as_string(),
+                                                        data[17].as_string());
+                        std::string pdp = fmt::format("{}\n{}\n{}\n{}",
+                                                      data[18].as_string(),
+                                                        data[19].as_string(),
+                                                        data[20].as_string(),
+                                                        data[23].as_string());
+                        std::string result = fmt::format("<b>{}</b>\n\n<i>{}</i>\n\n{}\n\n{}\n\n{}\n\n{}",
+                                                         header,
+                                                         tgl,
+                                                         konfirmasi,
+                                                         opp,
+                                                         odp,
+                                                         pdp);
+                        m_bot.getApi().sendMessage(tg->chat->id, result, false, 0, std::make_shared< TgBot::GenericReply >(), "HTML", false);
                     }
                     else {
                         m_bot.getApi().sendMessage(tg->chat->id, "<pre> Tidak dapat menampilkan data</pre>", false, 0, std::make_shared< TgBot::GenericReply >(), "HTML", false);

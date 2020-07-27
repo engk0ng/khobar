@@ -47,8 +47,10 @@ int main() {
     sch.total(&international_cmd, Type::Total).action();
     sch.internasional(&international_cmd, Type::Internasional).action();
     sch.nasional(&nasional_cmd, Type::Nasional).action();
-    sch.hoaks(&nasional_cmd, Type::Hoaks).action();
-    sch.nasehat(&nasional_cmd, Type::Nasehat).action();
+    sch.nasional(&nasional_cmd, Type::Hoaks).action();
+    sch.nasional(&nasional_cmd, Type::Nasehat).action();
+    sch.nasional(&nasional_cmd, Type::Akhbar).action();
+    sch.nasional(&nasional_cmd, Type::Ciamis).action();
 
     try {
         TgBot::TgLongPoll long_pool(bot);

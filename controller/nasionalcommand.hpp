@@ -17,6 +17,10 @@ public:
             m_hanlder.hoaxs();
         else if (type == Type::Nasehat)
             m_hanlder.nasehat();
+        else if (type == Type::Akhbar)
+            m_hanlder.akhbar();
+        else if (type == Type::Ciamis)
+            m_hanlder.ciamis();
     }
 private:
     MessageHandler& m_hanlder;

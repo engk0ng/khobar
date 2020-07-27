@@ -14,8 +14,6 @@ public:
     Switcher& total(InternasionalCommand* cmd, Type type);
     Switcher& internasional(InternasionalCommand* cmd, Type type);
     Switcher& nasional(NasionalCommand* cmd, Type type);
-    Switcher& hoaks(NasionalCommand* cmd, Type type);
-    Switcher& nasehat(NasionalCommand* cmd, Type type);
 
 private:
     Command* m_cmd;
