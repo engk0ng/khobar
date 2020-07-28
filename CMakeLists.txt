@@ -32,6 +32,7 @@ add_executable(khobar_covid
         data/countries.json
         controller/nasionalcommand.cpp
         controller/nasionalcommand.hpp
+        model/article_model.hpp
         )
 
 target_include_directories(khobar_covid

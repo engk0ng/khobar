@@ -16,7 +16,8 @@ enum class Type {
     Hoaks,
     Nasehat,
     Akhbar,
-    Ciamis
+    Ciamis,
+    Artikel
 };
 
 class Command {

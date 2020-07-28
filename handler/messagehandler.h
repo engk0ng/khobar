@@ -26,6 +26,7 @@ public:
     void nasehat();
     void akhbar();
     void ciamis();
+    void asysyariah();
 
 private:
     pplx::task<std::vector<unsigned char>> get_timestamp();

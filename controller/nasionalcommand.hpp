@@ -21,6 +21,8 @@ public:
             m_hanlder.akhbar();
         else if (type == Type::Ciamis)
             m_hanlder.ciamis();
+        else if (type == Type::Artikel)
+            m_hanlder.asysyariah();
     }
 private:
     MessageHandler& m_hanlder;
