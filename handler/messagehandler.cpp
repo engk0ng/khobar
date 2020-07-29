@@ -13,7 +13,6 @@
 #include <cpprest/http_client.h>
 #include <cpprest/filestream.h>
 #include <cpprest/uri.h>
-#include <cpprest/json.h>
 #include <cpprest/http_listener.h>
 
 #include <boost/filesystem.hpp>
@@ -182,6 +181,7 @@ void MessageHandler::internasional() {
                                               "Click link yang berada di sebelah <strong>nama negara</strong> untuk menampilkan data.\n\n";
                     int i = 1;
                     for (const auto& item: array) {
+
                         if (item.size() >= 3) {
                             country_str.append(std::to_string(i));
                             country_str.append(". ");
@@ -268,6 +268,7 @@ void MessageHandler::total() {
                     if (response.status_code() != 200) {
                         m_bot.getApi().sendMessage(tg->chat->id, "<pre> Terjadi kesalahan</pre>", false, 0, std::make_shared< TgBot::GenericReply >(), "HTML", false);
                     }
+
                     return response.extract_json();
                  })
                 .then([&tg, this](json::value json_obj){
@@ -446,26 +447,10 @@ void MessageHandler::nasehat() {
                     return response.extract_json();
                 })
                 .then([this, &tg](json::value json_obj){
-                    std::string isOk = json_obj.at("status").as_string();
-                    if (isOk == "Ok") {
-                        auto data = json_obj.at("data").as_array();
-                        std::string result = "<b>Berikut adalah judul nasehat yang bisa anda ambil faedahnya: </b>\n\n"
-                                             "<pre>Klik judulnya ambil faedahnya</pre>\n\n";
-                        BOOST_FOREACH(const auto& item, data) {
-                            result.append("- ");
-                            result.append("<a href=\"");
-                            result.append(item.at("url").as_string());
-                            result.append("\">");
-                            result.append(item.at("judul").as_string());
-                            result.append("</a>");
-                            result.append("\n");
-                        }
-                        m_bot.getApi().sendMessage(tg->chat->id, result, false, 0, std::make_shared< TgBot::GenericReply >(), "HTML", false);
-
-                    }
-                    else {
-                        m_bot.getApi().sendMessage(tg->chat->id, "<pre> Tidak dapat menampilkan data</pre>", false, 0, std::make_shared< TgBot::GenericReply >(), "HTML", false);
-                    }
+                    std::string result = "<b>Berikut adalah judul nasehat yang bisa anda ambil faedahnya: </b>\n\n"
+                                 "<pre>Klik judulnya ambil faedahnya</pre>\n\n";
+                    build_and_parse_message(std::move(json_obj), result);
+                    m_bot.getApi().sendMessage(tg->chat->id, result, false, 0, std::make_shared< TgBot::GenericReply >(), "HTML", false);
                 });
         try {
             request.wait();
@@ -487,25 +472,10 @@ void MessageHandler::akhbar() {
                     return response.extract_json();
                  })
                 .then([this, &tg](json::value json_obj){
-                    std::string isOK = json_obj.at("status").as_string();
-                    if (isOK == "Ok") {
-                        auto data = json_obj.at("data").as_array();
-                        std::string result = "<b>Berikut adalah judul akhbar yang bisa anda ambil faedahnya: </b>\n\n"
-                                             "<pre>Klik judulnya ambil faedahnya</pre>\n\n";
-                        BOOST_FOREACH(const auto& item, data) {
-                            result.append("- ");
-                            result.append("<a href=\"");
-                            result.append(item.at("url").as_string());
-                            result.append("\">");
-                            result.append(item.at("judul").as_string());
-                            result.append("</a>");
-                            result.append("\n");
-                        }
-                        m_bot.getApi().sendMessage(tg->chat->id, result, false, 0, std::make_shared< TgBot::GenericReply >(), "HTML", false);
-                    }
-                    else {
-                        m_bot.getApi().sendMessage(tg->chat->id, "<pre> Tidak dapat menampilkan data</pre>", false, 0, std::make_shared< TgBot::GenericReply >(), "HTML", false);
-                    }
+                    std::string result = "<b>Berikut adalah judul akhbar yang bisa anda ambil faedahnya: </b>\n\n"
+                                 "<pre>Klik judulnya ambil faedahnya</pre>\n\n";
+                    build_and_parse_message(std::move(json_obj), result);
+                    m_bot.getApi().sendMessage(tg->chat->id, result, false, 0, std::make_shared< TgBot::GenericReply >(), "HTML", false);
                 });
         try {
             request.wait();
@@ -584,34 +554,10 @@ void MessageHandler::asysyariah() {
                     return response.extract_json();
                 })
                 .then([this, &tg](json::value json_obj){
-                    std::string isOK = json_obj.at("status").as_string();
-                    if (isOK == "Ok") {
-                        auto data = json_obj.at("data").as_array();
-                        std::vector<Article> articles;
-                        articles.reserve(data.size());
-                        std::string result = "<b>Berikut adalah judul artikel islami yang bisa anda ambil faedahnya: </b>\n\n"
-                                             "<pre>Klik judulnya ambil faedahnya</pre>\n\n";
-                        BOOST_FOREACH(json::value item, data) {
-                            Article art {item.at("judul").as_string(), item.at("url").as_string()};
-                            auto fn = std::find(articles.begin(), articles.end(), art);
-                            if (fn == std::end(articles)) {
-                                articles.push_back(art);
-                                result.append("- ");
-                                result.append("<a href=\"");
-                                result.append(item.at("url").as_string());
-                                result.append("\">");
-                                result.append(item.at("judul").as_string());
-                                result.append("</a>");
-                                result.append("\n");
-                            }
-                        }
-                        articles.erase(articles.begin(), articles.end());
-                        articles.shrink_to_fit();
-                        m_bot.getApi().sendMessage(tg->chat->id, result, false, 0, std::make_shared< TgBot::GenericReply >(), "HTML", false);
-                    }
-                    else {
-                         m_bot.getApi().sendMessage(tg->chat->id, "<pre> Tidak dapat menampilkan data</pre>", false, 0, std::make_shared< TgBot::GenericReply >(), "HTML", false);
-                    }
+                    std::string result = "<b>Berikut adalah judul artikel islami yang bisa anda ambil faedahnya: </b>\n\n"
+                                 "<pre>Klik judulnya ambil faedahnya</pre>\n\n";
+                    build_and_parse_message(std::move(json_obj), result);
+                    m_bot.getApi().sendMessage(tg->chat->id, result, false, 0, std::make_shared< TgBot::GenericReply >(), "HTML", false);
                 });
         try {
             request.wait();
@@ -620,4 +566,83 @@ void MessageHandler::asysyariah() {
              m_bot.getApi().sendMessage(tg->chat->id, "<pre> Tidak dapat menampilkan data</pre>", false, 0, std::make_shared< TgBot::GenericReply >(), "HTML", false);
         }
     });
+}
+
+void MessageHandler::bnpb() {
+    m_bot.getEvents().onCommand("bnpb", [this](TgBot::Message::Ptr tg){
+        auto request = http_client(U(api_article))
+                .request(methods::GET, U("bnpb"))
+                .then([this, &tg](http_response response) {
+                    if (response.status_code() != 200) {
+                        m_bot.getApi().sendMessage(tg->chat->id, "<pre> Terjadi kesalahan</pre>", false, 0, std::make_shared< TgBot::GenericReply >(), "HTML", false);
+                    }
+                    return response.extract_json();
+                })
+                .then([this, &tg](json::value json_obj){
+                    std::string result = "<b>Berikut adalah judul berita dari BNPB yang bisa anda ambil faedahnya: </b>\n\n"
+                                         "<pre>Klik judulnya ambil faedahnya</pre>\n\n";
+                    build_and_parse_message(std::move(json_obj), result);
+                    m_bot.getApi().sendMessage(tg->chat->id, result, false, 0, std::make_shared< TgBot::GenericReply >(), "HTML", false);
+                });
+        try {
+            request.wait();
+        } catch (const std::exception &e) {
+            printf("Error exception:%s\n", e.what());
+             m_bot.getApi().sendMessage(tg->chat->id, "<pre> Tidak dapat menampilkan data</pre>", false, 0, std::make_shared< TgBot::GenericReply >(), "HTML", false);
+        }
+    });
+}
+
+void MessageHandler::covidgov() {
+    m_bot.getEvents().onCommand("covid19goid", [this](TgBot::Message::Ptr tg){
+        auto request = http_client(U(api_article))
+                .request(methods::GET, U("coviggov"))
+                .then([this, &tg](http_response response) {
+                    if (response.status_code() != 200) {
+                        m_bot.getApi().sendMessage(tg->chat->id, "<pre> Terjadi kesalahan</pre>", false, 0, std::make_shared< TgBot::GenericReply >(), "HTML", false);
+                    }
+                    return response.extract_json();
+                })
+                .then([this, &tg](json::value json_obj){
+                    std::string result = "<b>Berikut adalah judul berita dari covid19.go.id yang bisa anda ambil faedahnya: </b>\n\n"
+                                         "<pre>Klik judulnya ambil faedahnya</pre>\n\n";
+                    build_and_parse_message(std::move(json_obj), result);
+                    m_bot.getApi().sendMessage(tg->chat->id, result, false, 0, std::make_shared< TgBot::GenericReply >(), "HTML", false);
+                });
+        try {
+            request.wait();
+        } catch (const std::exception &e) {
+            printf("Error exception:%s\n", e.what());
+             m_bot.getApi().sendMessage(tg->chat->id, "<pre> Tidak dapat menampilkan data</pre>", false, 0, std::make_shared< TgBot::GenericReply >(), "HTML", false);
+        }
+    });
+}
+
+void MessageHandler::build_and_parse_message(web::json::value &&json_obj, std::string &result) {
+    std::string isOK = json_obj.at("status").as_string();
+    if (isOK == "Ok") {
+        auto data = json_obj.at("data").as_array();
+        std::vector<Article> articles;
+        articles.reserve(data.size());
+        BOOST_FOREACH(const json::value& item, data) {
+            Article art {item.at("judul").as_string(), item.at("url").as_string()};
+            auto fn = std::find(articles.begin(), articles.end(), art);
+            if (fn == std::end(articles)) {
+                articles.push_back(art);
+                result.append("- ");
+                result.append("<a href=\"");
+                result.append(item.at("url").as_string());
+                result.append("\">");
+                result.append(item.at("judul").as_string());
+                result.append("</a>");
+                result.append("\n");
+            }
+        }
+        articles.erase(articles.begin(), articles.end());
+        articles.shrink_to_fit();
+    }
+    else {
+        result.clear();
+        result = "<pre> Tidak dapat menampilkan data</pre>";
+    }
 }

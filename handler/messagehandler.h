@@ -10,6 +10,7 @@
 #include <cpp_redis/cpp_redis>
 
 #include <cpprest/asyncrt_utils.h>
+#include <cpprest/json.h>
 
 class MessageHandler {
 public:
@@ -27,10 +28,13 @@ public:
     void akhbar();
     void ciamis();
     void asysyariah();
+    void bnpb();
+    void covidgov();
 
 private:
     pplx::task<std::vector<unsigned char>> get_timestamp();
     pplx::task<std::vector<unsigned char>> get_hoaxs();
+    void build_and_parse_message(web::json::value&& json_obj, std::string& result);
 
 private:
     TgBot::Bot& m_bot;

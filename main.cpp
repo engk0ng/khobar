@@ -52,6 +52,8 @@ int main() {
     sch.nasional(&nasional_cmd, Type::Akhbar).action();
     sch.nasional(&nasional_cmd, Type::Ciamis).action();
     sch.nasional(&nasional_cmd, Type::Artikel).action();
+    sch.nasional(&nasional_cmd, Type::BNPB).action();
+    sch.nasional(&nasional_cmd, Type::CovidGov).action();
 
     try {
         TgBot::TgLongPoll long_pool(bot);

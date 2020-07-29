@@ -23,6 +23,10 @@ public:
             m_hanlder.ciamis();
         else if (type == Type::Artikel)
             m_hanlder.asysyariah();
+        else if (type == Type::BNPB)
+            m_hanlder.bnpb();
+        else if (type == Type::CovidGov)
+            m_hanlder.covidgov();
     }
 private:
     MessageHandler& m_hanlder;

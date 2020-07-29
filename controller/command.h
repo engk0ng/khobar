@@ -17,7 +17,9 @@ enum class Type {
     Nasehat,
     Akhbar,
     Ciamis,
-    Artikel
+    Artikel,
+    BNPB,
+    CovidGov
 };
 
 class Command {
