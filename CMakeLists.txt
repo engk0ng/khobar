@@ -33,6 +33,7 @@ add_executable(khobar_covid
         controller/nasionalcommand.cpp
         controller/nasionalcommand.hpp
         model/article_model.hpp
+        model/province_model.hpp
         )
 
 target_include_directories(khobar_covid

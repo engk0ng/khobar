@@ -27,6 +27,8 @@ public:
             m_hanlder.bnpb();
         else if (type == Type::CovidGov)
             m_hanlder.covidgov();
+        else if (type == Type::RS)
+            m_hanlder.rumah_sakit();
     }
 private:
     MessageHandler& m_hanlder;

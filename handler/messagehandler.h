@@ -30,6 +30,7 @@ public:
     void asysyariah();
     void bnpb();
     void covidgov();
+    void rumah_sakit();
 
 private:
     pplx::task<std::vector<unsigned char>> get_timestamp();

@@ -27,6 +27,8 @@
 
 #include <algorithm>
 
+#include <list>
+
 using namespace utility;
 using namespace web;
 using namespace web::http;
@@ -41,6 +43,7 @@ static constexpr const char* nasional_url = "https://dekontaminasi.com/api/id/co
 static constexpr const char* date_format = "%A, %d %B %Y";
 static constexpr const char* timestamp_url = "https://dekontaminasi.com/api/id/covid19/stats.timestamp";
 static constexpr const char* hoaxs_url = "https://dekontaminasi.com/api/id/covid19/hoaxes";
+static constexpr const char* rs_url = "https://dekontaminasi.com/api/id/covid19/hospitals";
 
 namespace koloboot {
 
@@ -367,7 +370,7 @@ void MessageHandler::nasional() {
 
             nlohmann::json json = nlohmann::json::parse(get.get().as_string());
             auto json_obj = json.at("regions").get<std::vector<nlohmann::json>>();
-            std::string list = "<b> Data Covid19 Per Provinsi: </b>\n\n";
+            std::string list = "<b>Data Covid19 Per Provinsi: </b>\n\n";
             int i = 1;
             for (const auto& item: json_obj) {
                 std::string name = item.at("name").get<std::string>();
@@ -391,6 +394,33 @@ void MessageHandler::nasional() {
                 ++i;
             }
             m_bot.getApi().sendMessage(query->message->chat->id, list, false, 0, std::make_shared< TgBot::GenericReply >(), "HTML", false);
+        }
+        else {
+            std::string_view provinsi = query->data;
+            auto get = m_client.get(koloboot::rs_key);
+            m_client.sync_commit();
+
+            nlohmann::json json = nlohmann::json::parse(get.get().as_string());
+            std::string result = "";
+            BOOST_FOREACH(const auto& item, json) {
+                if (item.at("province").get<std::string>() == provinsi) {
+                    std::string address = item.at("name").get<std::string>();
+                    std::string link = fmt::format("<a href=\"https://www.google.com/maps/search/?api=1&query={}\">{}</a>", address, item.at("name").get<std::string>());
+                    result.append(link);
+                    result.append("\n");
+                    result.append(item.at("address").get<std::string>());
+                    result.append("\n");
+                    result.append(item.at("region").get<std::string>());
+                    result.append("\n");
+                    if (!item.at("phone").is_null()) {
+                        result.append(item.at("phone").get<std::string>());
+                        result.append("\n");
+                    }
+                    result.append("\n");
+                }
+            }
+            std::string rs = fmt::format("<b>Berikut Rumah Sakit Rujukan Covid-19 di {}</b>\n\n{}", provinsi, result);
+            m_bot.getApi().sendMessage(query->message->chat->id, rs, false, 0, std::make_shared< TgBot::GenericReply >(), "HTML", false);
         }
     });
 }
@@ -608,6 +638,49 @@ void MessageHandler::covidgov() {
                                          "<pre>Klik judulnya ambil faedahnya</pre>\n\n";
                     build_and_parse_message(std::move(json_obj), result);
                     m_bot.getApi().sendMessage(tg->chat->id, result, false, 0, std::make_shared< TgBot::GenericReply >(), "HTML", false);
+                });
+        try {
+            request.wait();
+        } catch (const std::exception &e) {
+            printf("Error exception:%s\n", e.what());
+             m_bot.getApi().sendMessage(tg->chat->id, "<pre> Tidak dapat menampilkan data</pre>", false, 0, std::make_shared< TgBot::GenericReply >(), "HTML", false);
+        }
+    });
+}
+
+void MessageHandler::rumah_sakit() {
+    m_bot.getEvents().onCommand("rs", [this](TgBot::Message::Ptr tg){
+        auto request = http_client(U(rs_url))
+                .request(methods::GET, U(""))
+                .then([this, tg](http_response response){
+                    if (response.status_code() != 200) {
+                        m_bot.getApi().sendMessage(tg->chat->id, "<pre> Terjadi kesalahan</pre>", false, 0, std::make_shared< TgBot::GenericReply >(), "HTML", false);
+                    }
+                    return response.extract_string();
+                })
+                .then([this, &tg](std::string res){
+                    m_client.set(koloboot::rs_key, res);
+                    m_client.sync_commit();
+
+                    nlohmann::json json = nlohmann::json::parse(res);
+                    std::list<std::string> data;
+                    BOOST_FOREACH(const auto& item, json) {
+                        data.push_back(item.at("province"));
+                    }
+                    data.unique();
+                    TgBot::InlineKeyboardMarkup::Ptr keyboard(new TgBot::InlineKeyboardMarkup);
+
+                    BOOST_FOREACH(const std::string& item, data) {
+                        std::vector<TgBot::InlineKeyboardButton::Ptr> row0;
+                        TgBot::InlineKeyboardButton::Ptr prov_btn(new TgBot::InlineKeyboardButton);
+                        prov_btn->text = item;
+                        prov_btn->callbackData = item;
+                        row0.push_back(prov_btn);
+                        keyboard->inlineKeyboard.push_back(row0);
+                    }
+
+                    std::string text = "<b>Rumah sakit rujukan per provinsi</b>\n\n";
+                    m_bot.getApi().sendMessage(tg->chat->id, text, false, 0, keyboard, "HTML", false);
                 });
         try {
             request.wait();

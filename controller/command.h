@@ -19,7 +19,8 @@ enum class Type {
     Ciamis,
     Artikel,
     BNPB,
-    CovidGov
+    CovidGov,
+    RS
 };
 
 class Command {
